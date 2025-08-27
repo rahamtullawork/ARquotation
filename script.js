@@ -1,20 +1,3 @@
-// // Handle form submission
-// document.getElementById("quotationForm").addEventListener("submit", function(e) {
-//   e.preventDefault(); // stop page refresh
-
-//   const formData = Object.fromEntries(new FormData(e.target));
-
-//   // For now, simulate a backend response
-//   // Later we will replace this with a fetch() call to Google Apps Script
-//   setTimeout(() => {
-//     const fakeQuotationLink = "https://drive.google.com/fake-sample-quotation.pdf";
-//     document.getElementById("result").innerHTML = `
-//       ✅ Quotation generated successfully! <br>
-//       <a href="${fakeQuotationLink}" target="_blank">📄 Download Quotation</a>
-//     `;
-//   }, 800); // simulate processing delay
-// });
-
 // Format total amount with commas (Indian number system)
 document.getElementById("totalAmount").addEventListener("input", function(e) {
   let value = e.target.value.replace(/,/g, ""); // remove old commas
@@ -23,15 +6,18 @@ document.getElementById("totalAmount").addEventListener("input", function(e) {
   }
 });
 
+// Handle form submission
 document.getElementById("quotationForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const formData = Object.fromEntries(new FormData(e.target));
 
-  // Remove commas from amount before sending
+  // Remove commas from totalAmount before sending to backend
   formData.totalAmount = formData.totalAmount.replace(/,/g, "");
 
-  document.getElementById("result").innerHTML = "⏳ Generating quotation... please wait";
+  // Show loading
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "⏳ Generating quotation... please wait";
 
   try {
     let response = await fetch("https://script.google.com/macros/s/AKfycbyTNu9Jru-g7Nu--6XL9jKxVrrB1bI0_pezq5ovnU_Awgf7BPP_8AFbmAaYHYrp4n0C/exec", {
@@ -40,12 +26,23 @@ document.getElementById("quotationForm").addEventListener("submit", async functi
       headers: { "Content-Type": "application/json" }
     });
 
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
     let result = await response.json();
-    document.getElementById("result").innerHTML = `
-      ✅ Quotation generated successfully! <br>
-      <a href="${result.link}" target="_blank">📄 Download Quotation</a>
-    `;
+
+    if (result.error) {
+      resultDiv.innerHTML = `❌ Backend error: ${result.error}`;
+    } else {
+      resultDiv.innerHTML = `
+        ✅ Quotation generated successfully! <br>
+        <a href="${result.link}" target="_blank">📄 Download Quotation</a>
+      `;
+    }
+
+    // Optional: reset form after success
+    // document.getElementById("quotationForm").reset();
+
   } catch (err) {
-    document.getElementById("result").innerHTML = "❌ Error: " + err.message;
+    resultDiv.innerHTML = "❌ Error: " + err.message;
   }
 });
