@@ -1,0 +1,100 @@
+/* General reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Background */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff7e5f;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  font-weight: 600;
+  margin: 10px 0 5px;
+  color: #444;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff7e5f;
+  box-shadow: 0 0 6px rgba(255,126,95,0.3);
+}
+
+/* Button */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+/* Result box */
+#result {
+  margin-top: 20px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
